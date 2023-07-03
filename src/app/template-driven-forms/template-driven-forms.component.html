@@ -1,0 +1,32 @@
+<form (ngSubmit)="submitForm()" #forms="ngForm">
+  <div class="col-md-12 mb-3">
+    <label for="Category" class="form-label"> Category : </label>
+    <select name="categoty" id="categoty" class="form-control" [(ngModel)]="formData.categoty">
+      <!-- <option value="0" selected>Please Select</option> -->
+      <option *ngFor="let item of ClientType" value="{{ item.name }}">
+        {{ item.name }}
+      </option>
+    </select>
+  </div>
+
+
+  <div class="mb-3">
+    <label for="name" class="form-label">Name :</label>
+    <input type="text" id="name" name="name" class="form-control" #inputName="ngModel" [(ngModel)]="formData.name" required>
+    <div class="alert alert-warning" [hidden]="inputName.valid || inputName.untouched">
+      <small *ngIf="inputName.errors?.['required']">Input is Required</small>
+      <small *ngIf="inputName.errors?.['pattern']">Pattern is Invalid</small>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Email :</label>
+    <input type="email" id="email" name="email" class="form-control" [(ngModel)]="formData.email" required>
+  </div>
+
+  <button type="submit" class="btn btn-success" [disabled]="forms.invalid">Submit</button>
+</form>
+
+
+<!-- {{inputName.className | json}} -->
+<!-- {{inputName.errors | json}} -->

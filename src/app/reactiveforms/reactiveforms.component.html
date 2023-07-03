@@ -1,0 +1,61 @@
+<form [formGroup]="ReagisterForm">
+
+  <div class="col-md-12 mb-3">
+    <label for="Category" class="form-label"> Category : </label>
+    <select name="categoty" id="categoty" class="form-control" formControlName="ClientType">
+      <!-- <option value="0" selected>Please Select</option> -->
+      <option *ngFor="let item of ClientType" value="{{ item.name }}">
+        {{ item.name }}
+      </option>
+    </select>
+  </div>
+
+
+  <div class="mb-3">
+    <label for="name" class="form-label">FullName :</label>
+    <input type="text" id="FullName" name="FullName" class="form-control" formControlName="fullname">
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Email :</label>
+    <input type="email" id="email" name="email" class="form-control" formControlName="email">
+  </div>
+
+  <div class="mb-3">
+    <label for="PhoneNo" class="form-label">Phone No :</label>
+    <input type="text" id="PhoneNo" name="PhoneNo" class="form-control" formControlName="phoneNo">
+  </div>
+
+  <div [formGroupName]="address">
+    <div class="mb-3">
+      <label for="city" class="form-label">City :</label>
+      <input type="text" id="city" name="city" class="form-control" formControlName="city">
+    </div>
+
+    <div class="mb-3">
+      <label for="postalCode" class="form-label">Phone No :</label>
+      <input type="text" id="postalCode" name="postalCode" class="form-control" formControlName="postalCode">
+    </div>
+
+    <div class="mb-3">
+      <label for="street" class="form-label">Phone No :</label>
+      <input type="text" id="street" name="street" class="form-control" formControlName="street">
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password :</label>
+    <input type="password" id="password" name="password" class="form-control" formControlName="password">
+  </div>
+
+  <div class="mb-3">
+    <label for="ConfirmPassword" class="form-label">Confirm Password :</label>
+    <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" formControlName="confirmpassword">
+  </div>
+
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+
+<!-- {{inputName.className | json}} -->
+<!-- {{inputName.errors | json}} -->

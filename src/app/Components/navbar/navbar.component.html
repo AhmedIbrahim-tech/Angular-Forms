@@ -1,0 +1,18 @@
+<header class="d-flex flex-row align-items-center justify-content-between
+    bg-white border-bottom shadow-sm ">
+    <img src="https://nishugoel.files.wordpress.com/2018/10/angular.png" alt="logo" class="logo" style="max-height: 70px;" routerLink="">
+    <nav class="my-2 fs-4">
+        <a class="p-2" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/" >Home</a>
+        <a class="p-2" routerLinkActive="active" routerLink="/DrivenForms" >Driven Forms</a>
+        <a class="p-2" routerLinkActive="active" routerLink="/ReactiveForms">Reactive Forms</a>
+    </nav>
+
+    <div class="d-flex align-items-center">
+        <a href="#" class="btn btn-outline-secondary me-2">
+            <i class="fa fa-sign-out me-3"></i> Login
+        </a>
+        <a href="#" class="btn btn-outline-secondary me-2">
+            <i class="fa fa-sign-out me-3"></i> Sgin Up
+        </a>
+    </div>
+</header>
