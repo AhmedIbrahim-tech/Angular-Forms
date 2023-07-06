@@ -1,8 +1,9 @@
 //#region Fields
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { IBaseValues } from '../Models/IBaseValues';
 import { IUser } from '../Models/IUser';
+import { checkUserIsExisted } from '../Custom-Validator/CheckUserIsExisted';
 
 @Component({
   selector: 'app-reactiveforms',
@@ -15,10 +16,15 @@ export class ReactiveformsComponent implements OnInit {
   //#region Parameters
   ReagisterForm: FormGroup;
   ClientType: IBaseValues[] | undefined;
+  IsUserExist : string[] = [];
   //#endregion
 
   //#region constructor
   constructor(private formBuilder: FormBuilder) {
+  
+    //#region Array Includes on Emails
+    this.IsUserExist = ['admin@admin.com' , 'a@a.com' , 'ahmed@a.com'];
+    //#endregion
 
     //#region [ Client Type ] Select
     this.ClientType = [
@@ -48,8 +54,8 @@ export class ReactiveformsComponent implements OnInit {
 
     //#region Reagister Form (NEW Syntax)
     this.ReagisterForm = formBuilder.group({
-      fullname: ['', [Validators.required, Validators.pattern('[A-za-z]{3,}')]],
-      email: formBuilder.control(''),
+      fullname: ['', [Validators.required]],
+      email: formBuilder.control('' , [Validators.required , checkUserIsExisted(this.IsUserExist) ]),
       password: [''],
       confirmpassword: [''],
       phoneNo: this.formBuilder.array([this.formBuilder.control('')]),
@@ -60,6 +66,8 @@ export class ReactiveformsComponent implements OnInit {
         street: [''],
 
       }),
+      referral:[''],
+      referralother:['']
     });
     //#endregion
 
@@ -81,6 +89,7 @@ export class ReactiveformsComponent implements OnInit {
     //     street: '3st alemam',
     //   }
     // });
+
 }
 
   //#region Handle Functions
@@ -99,6 +108,24 @@ export class ReactiveformsComponent implements OnInit {
     // this.GetPhoneNumbers.controls.push(new FormControl(''));
     this.GetPhoneNumbers.push(this.formBuilder.control(''));
   }
+
+  updateReferralValidator(){
+    this.GetreferralOther?.value=='other' ? this.GetreferralOther.addValidators(Validators.required) : this.GetreferralOther?.clearValidators();
+    this.GetreferralOther?.updateValueAndValidity();
+  }
+  
+  CheckEmailIsValid(): ValidatorFn 
+  {
+    let CheckEmail = (control : AbstractControl) : ValidationErrors | null => {
+      let EmailValue : string = control.value;
+      let validtorError = {'EmailNotValid' : {'value' : EmailValue}}
+      if (EmailValue.length == 0 && control.untouched) return null;
+      return EmailValue.includes('@') ? null : validtorError;
+    }
+    return CheckEmail;
+  }
+  
+
   //#endregion
 
   //#region Get Attributes
@@ -106,8 +133,20 @@ export class ReactiveformsComponent implements OnInit {
     return this.ReagisterForm.get('fullname');
   }
 
+  get Getemail() {
+    return this.ReagisterForm.get('email');
+  }
+
   get GetPhoneNumbers() {
     return this.ReagisterForm.get('phoneNo') as FormArray;
+  }
+
+  get Getreferral(){
+    return this.ReagisterForm.get('referral');
+  }
+
+  get GetreferralOther(){
+    return this.ReagisterForm.get('referralother');
   }
   //#endregion
 
@@ -139,7 +178,7 @@ export class ReactiveformsComponent implements OnInit {
         email: 'admin@admin.com',
         password: '123456',
         confirmpassword: '123456',
-        phoneNo: '123456',
+        // phoneNo: '+1 (235) 836-2515',
         ClientType: 'Client',
         address: {
           city: 'Cairo',

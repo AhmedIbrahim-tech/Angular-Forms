@@ -1,21 +1,20 @@
 <form [formGroup]="ReagisterForm" (ngSubmit)="onSubmit()">
 
+  <!-- start catrgory -->
   <div class="col-md-12 mb-3">
     <label for="Category" class="form-label"> Category : </label>
-    <select name="categoty" id="categoty" class="form-control" formControlName="ClientType"
-      [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+    <select name="categoty" id="categoty" class="form-control" formControlName="ClientType">
       <!-- <option value="0" selected>Please Select</option> -->
       <option *ngFor="let item of ClientType" value="{{ item.name }}">
         {{ item.name }}
       </option>
     </select>
   </div>
-
+  <!-- End category -->
 
   <div class="mb-3">
     <label for="name" class="form-label">FullName :</label>
-    <input type="text" id="FullName" name="FullName" class="form-control" formControlName="fullname"
-      [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+    <input type="text" id="FullName" name="FullName" class="form-control" formControlName="fullname">
     <div [hidden]="Getfullname?.valid || Getfullname?.untouched" class="alert alert-warning">
       <small *ngIf="Getfullname?.errors?.['required']"> FullName is Required </small>
       <small *ngIf="Getfullname?.errors?.['pattern']"> FullName Pattern <b> {{
@@ -25,15 +24,19 @@
 
   <div class="mb-3">
     <label for="email" class="form-label">Email :</label>
-    <input type="email" id="email" name="email" class="form-control" formControlName="email"
-      [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+    <input type="email" id="email" name="email" class="form-control" formControlName="email">
+    <div [hidden]="Getemail?.valid || Getemail?.untouched" class="alert alert-warning">
+      <small *ngIf="Getemail?.errors?.['required']"> email is Required </small>
+      <small *ngIf="Getemail?.errors?.['exaitEmail']"> This's Email <b>
+          {{ Getemail?.errors?.['exaitEmail'].value }} </b> Already Exists </small>
+    </div>
   </div>
 
-  <div class="mb-3 mt-3" formArrayName="phoneNo" >
-    <div  *ngFor="let item of GetPhoneNumbers.controls let i = index" class="mb-3 mt-3">
+  <div class="mb-3 mt-3" formArrayName="phoneNo">
+    <div *ngFor="let item of GetPhoneNumbers.controls let i = index" class="mb-3 mt-3">
       <label for="{{'PhoneNo #' + i + 1}}">PhoneNo #{{ i + 1 }}</label>
       <input type="text" id="{{'PhoneNo' + i + 1}}" name="{{'PhoneNo' + i + 1}}" class="form-control"
-        [formControlName]="i" [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+        [formControlName]="i">
     </div>
     <button type="button" class="btn btn-outline-success w-25" (click)="addNewPhonenumber()">Plus</button>
   </div>
@@ -42,35 +45,55 @@
     <h4 class="text-success" class="ms-3">Address details</h4>
     <div class="mb-3 ms-3">
       <label for="city" class="form-label">City :</label>
-      <input type="text" id="city" name="city" class="form-control" formControlName="city"
-        [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+      <input type="text" id="city" name="city" class="form-control" formControlName="city">
     </div>
 
     <div class="mb-3 ms-3">
       <label for="postalCode" class="form-label">Postal Code :</label>
-      <input type="text" id="postalCode" name="postalCode" class="form-control" formControlName="postalCode"
-        [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+      <input type="text" id="postalCode" name="postalCode" class="form-control" formControlName="postalCode">
     </div>
 
     <div class="mb-3 ms-3">
       <label for="street" class="form-label">Street :</label>
-      <input type="text" id="street" name="street" class="form-control" formControlName="street"
-        [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+      <input type="text" id="street" name="street" class="form-control" formControlName="street">
     </div>
   </div>
 
   <div class="mb-3">
     <label for="password" class="form-label">Password :</label>
-    <input type="password" id="password" name="password" class="form-control" formControlName="password"
-      [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+    <input type="password" id="password" name="password" class="form-control" formControlName="password">
   </div>
 
   <div class="mb-3">
     <label for="ConfirmPassword" class="form-label">Confirm Password :</label>
     <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control"
-      formControlName="confirmpassword" [class.is-invalid]="Getfullname?.invalid" [class.is-valid]="Getfullname?.valid">
+      formControlName="confirmpassword">
   </div>
 
+
+  <div class="form-group">
+    <label for="referral" class="form-label">Referral : </label>
+    <br />
+    <input type="radio" class="btn-check" formControlName="referral" name="referral" id="option1" value="SocailMedia"
+      autocomplete="off" (change)="updateReferralValidator()">
+    <label class="btn btn-outline-secondary" for="option1">Socail Media</label>
+
+    <input type="radio" class="btn-check" formControlName="referral" name="referral" id="option2" value="Friends"
+      autocomplete="off" (change)="updateReferralValidator()">
+    <label class="btn btn-outline-secondary ms-3" for="option2">Friends</label>
+
+    <input type="radio" class="btn-check" formControlName="referral" name="referral" id="option3" value="Other"
+      autocomplete="off" (change)="updateReferralValidator()">
+    <label class="btn btn-outline-secondary ms-3" for="option3">Other</label>
+  </div>
+
+  <div class="form-group mb-2" *ngIf="Getreferral?.value === 'Other'">
+    <label for="referralother">referral other</label>
+    <input type="password" class="form-control" formControlName="referralother" id="referralother"
+      formControlName="referralother" required name="Password">
+  </div>
+
+  <br />
   <div class="mb-3">
     <button type="submit" class="btn btn-success" [disabled]="ReagisterForm.invalid">Submit</button>
   </div>
@@ -78,6 +101,9 @@
   <div class="mb-3">
     <button type="button" class="btn btn-primary" (click)="fillFormWithPatchValue()">Fill Form</button>
   </div>
+
+
+
 </form>
 
 {{ReagisterForm.value | json}}

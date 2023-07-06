@@ -7,7 +7,8 @@ import { ReactiveformsComponent } from './reactiveforms/reactiveforms.component'
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'DrivenForms', component: TemplateDrivenFormsComponent },
-  { path: 'ReactiveForms', component: ReactiveformsComponent }
+  { path: 'ReactiveForms', component: ReactiveformsComponent },
+  { path: '**', redirectTo:'' , pathMatch:'full' }
 ];
 
 @NgModule({
